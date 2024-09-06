@@ -1,0 +1,33 @@
+name: deploy_main
+
+on:
+  workflow_dispatch:
+
+jobs:
+  manual_deploy:
+    runs-on: ghostrider-virtual-machine  # Change this to a valid runner if you have a custom one
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: /home/sample-node-project
+
+      - name: Run SonarQube Scan
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npm install -g sonar-scanner
+          sonar-scanner \
+            -Dsonar.projectKey=my-node-project \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN
+
+      - name: Start application with PM2
+        run: pm2 start /home/sample-node-project/app.js
+        env:
+          CI: true
