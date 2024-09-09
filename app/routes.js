@@ -4,3 +4,4 @@ module.exports = function(app) {
         res.render('index'); // INDEX VİEW DOSYASI RENDER EDİLDİ
     });
 
+}
