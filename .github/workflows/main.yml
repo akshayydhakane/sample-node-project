@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 jobs:
   manual_deploy:
-    runs-on: ghostrider-virtual-machine
+    runs-on: node-runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
