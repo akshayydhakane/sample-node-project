@@ -10,12 +10,13 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: /home/sample-node-project
+      - name: Install SonarQube Scanner
+        run: npm install -g sonar-scanner --unsafe-perm=true
       - name: Run SonarQube Scan
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sudo npm install -g sonar-scanner
           sonar-scanner \
             -Dsonar.projectKey=my-node-project \
             -Dsonar.sources=. \
